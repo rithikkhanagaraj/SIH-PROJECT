@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="e.css">
+    <title>Custom Form</title>
+</head>
+<body>
+    <!-- Back Button -->
+    <button id="back-button" onclick="window.history.back()">Back</button>
+
+    <div class="form-display-container">
+        <h1>Custom Form</h1>
+        <form id="custom-form">
+            <!-- Form fields will be inserted here dynamically -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript to display and validate the form
+        document.addEventListener('DOMContentLoaded', () => {
+            const formData = JSON.parse(localStorage.getItem('customFormFields'));
+            const customForm = document.getElementById('custom-form');
+
+            if (formData && formData.fields.length > 0) {
+                const formIDDisplay = document.createElement('p');
+                formIDDisplay.textContent = `Form ID: ${formData.id}`;
+                customForm.insertBefore(formIDDisplay, customForm.firstChild);
+
+                formData.fields.forEach(field => {
+                    const label = document.createElement('label');
+                    label.textContent = field.name;
+                    
+                    const input = document.createElement('input');
+                    input.type = field.type;
+                    input.name = field.name;
+                    
+                    // Apply validations
+                    if (field.required) {
+                        input.required = true;
+                    }
+                    if (field.type === 'text' && field.minLength) {
+                        input.minLength = field.minLength;
+                    }
+                    if (field.type === 'text' && field.maxLength) {
+                        input.maxLength = field.maxLength;
+                    }
+
+                    customForm.insertBefore(label, customForm.lastElementChild);
+                    customForm.insertBefore(input, customForm.lastElementChild);
+                });
+            } else {
+                const message = document.createElement('p');
+                message.textContent = 'No fields to display.';
+                customForm.appendChild(message);
+            }
+        });
+
+        document.getElementById('custom-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            alert('Form submitted successfully!');
+            // Handle form submission logic here
+        });
+    </script>
+</body>
+</html>

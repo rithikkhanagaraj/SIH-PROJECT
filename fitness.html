@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Dashboard</title>
+    <link rel="stylesheet" href="f1.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Fitness Data</h1>
+            <div class="header-right">
+                <img src="https://img.freepik.com/free-photo/close-up-athlete-training_23-2150845536.jpg" alt="User" class="user-avatar">
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="banner">
+            <div class="banner-text">
+                <h2>Set Goals and Motivate Yourself!</h2><br><br>
+                <button class="goal-button" onclick="showGoalPopup()">Create Goal</button>
+                <button class="share-button" onclick="downloadStatus()">Share Status</button>
+                <button class="update-button" onclick="showDayPopup()">Update Stats</button>
+            </div>
+            <img src="https://cdn-icons-gif.flaticon.com/14504/14504634.gif" alt="Goal Image" class="banner-image">
+        </div>
+
+        <!-- Progress Bar (hidden initially) -->
+        <div id="goalProgressBar" class="progress-bar" style="display: none;">
+            <div id="goalProgress" class="progress"></div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3 id="stepsData">3515</h3>
+                <p>Steps walked</p>
+                <span class="status-good">Good</span>
+            </div>
+            <div class="stat-card">
+                <h3 id="kilometersData">2.3</h3>
+                <p>Kilometers</p>
+                <span class="status-good">Good</span>
+            </div>
+            <div class="stat-card">
+                <h3>65 bpm</h3>
+                <p>Pulse</p>
+            </div>
+            <div class="stat-card">
+                <h3>Low</h3>
+                <p>Current Hydration</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="caloriesData">1260 kcal</h3>
+                <p>Calories Burnt Today</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="staminaData">95%</h3>
+                <p>Stamina</p>
+            </div>
+        </div>
+
+        <!-- Graphs and Charts Section -->
+        <div class="charts-container">
+            <div class="chart-box">
+                <h3>Walking Stats</h3>
+                <canvas id="weightChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Daily Activity</h3>
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Goal Popup Container (initially hidden) -->
+        <div id="goalPopup" class="popup-container" style="display: none;">
+            <div class="popup-content">
+                <h3>Create Your Fitness Goal</h3>
+                <form id="goalForm">
+                    <label for="sport">Sport:</label>
+                    <select id="sport" name="sport">
+                        <option value="Running">Running</option>
+                        <option value="Cycling">Cycling</option>
+                        <option value="Swimming">Swimming</option>
+                        <option value="Badminton">Badminton</option>
+                        <option value="Cricket">Cricket</option>
+                        <option value="Football">Football</option>
+                        <option value="Volleyball">Volleyball</option>
+                    </select><br><br>
+
+                    <label for="steps">Steps Goal:</label>
+                    <input type="number" id="steps" name="steps" required><br><br>
+
+                    <label for="distance">Distance Goal (km):</label>
+                    <input type="number" id="distance" name="distance" step="0.1" required><br><br>
+
+                    <label for="calories">Calories to Burn:</label>
+                    <input type="number" id="calories" name="calories" required><br><br>
+
+                    <label for="waterReminder">Water Reminder (L):</label>
+                    <input type="number" id="waterReminder" name="waterReminder" step="0.1"><br><br>
+
+                    <button type="submit">Set Goal</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Day Selection Popup -->
+        <div id="dayPopup" class="popup-container" style="display: none;">
+            <div class="popup-content">
+                <h3>Select a Day</h3>
+                <ul>
+                    <li onclick="selectDay('Monday')">Monday</li>
+                    <li onclick="selectDay('Tuesday')">Tuesday</li>
+                    <li onclick="selectDay('Wednesday')">Wednesday</li>
+                    <li onclick="selectDay('Thursday')">Thursday</li>
+                    <li onclick="selectDay('Friday')">Friday</li>
+                    <li onclick="selectDay('Saturday')">Saturday</li>
+                    <li onclick="selectDay('Sunday')">Sunday</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Daily Stats Popup -->
+        <div id="dailyGoalPopup" class="popup-container" style="display: none;">
+            <div class="popup-content">
+                <h3>Update Daily Stats for <span id="selectedDay"></span></h3>
+                <form id="dailyStatsForm">
+                    <label for="dailySteps">Steps:</label>
+                    <input type="number" id="dailySteps" name="dailySteps" required><br><br>
+
+                    <label for="dailyDistance">Distance (km):</label>
+                    <input type="number" id="dailyDistance" name="dailyDistance" step="0.1" required><br><br>
+
+                    <label for="bpm">Heart Rate (BPM):</label>
+                    <input type="number" id="bpm" name="bpm" required><br><br>
+
+                    <label for="waterIntake">Water Intake (L):</label>
+                    <input type="number" id="waterIntake" name="waterIntake" step="0.1" required><br><br>
+
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="f1.js"></script>
+</body>
+</html>

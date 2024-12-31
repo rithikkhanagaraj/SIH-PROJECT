@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Association Profile</title>
+    <style>
+         body {
+            font-family: Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            background-image: url('bgf.jpg');
+        }
+
+        .top-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .top-left .sport-connect {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6c5ce7;
+            margin-bottom: 10px;
+        }
+
+        .top-left .back-btn {
+            background-color: #6c5ce7;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 100px auto 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            border: 2px solid #6c5ce7;
+        }
+
+        .left-section,
+        .right-section {
+            flex: 1;
+        }
+
+        .header {
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 1em;
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .header .profile-icon {
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 10px 0 0 0;
+        }
+
+        .change-photo-btn {
+            display: block;
+            width: auto;
+            margin-top: 10px;
+            background-color: #6c5ce7;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .change-photo-btn:hover {
+            background-color: #6c5ce7;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .section textarea,
+        .section select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #6c5ce7;
+            border-radius: 8px;
+            box-sizing: border-box;
+            min-height: 50px;
+            resize: none;
+        }
+
+        .section .text-with-image {
+            position: relative;
+        }
+
+        .section .text-with-image img {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+
+        .section .text-with-image textarea {
+            padding-left: 40px;
+        }
+
+        .section select {
+            padding-left: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-group input[type="radio"] {
+            display: none;
+        }
+
+        .button-group label {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #6c5ce7;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            color: white;
+            background-color: #6c5ce7;
+            transition: background-color 0.3s;
+        }
+
+        .button-group label:hover {
+            background-color:#6c5ce7;
+        }
+
+        .button-group input[type="radio"]:checked + label {
+            background-color: green;
+        }
+
+        .upload-button,
+        .upload-certificates-btn,
+        .upload-images-btn,
+        .submit-button {
+            padding: 10px 15px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .upload-button:hover,
+        .upload-certificates-btn:hover,
+        .upload-images-btn:hover,
+        .submit-button:hover {
+            background-color: #6c5ce7;
+        }
+
+        .contact-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .contact-info h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+
+        .contact-info b {
+            color: #6c5ce7;
+        }
+
+        .contact-info .contact-details {
+            margin-top: 15px;
+        }
+
+        .uploaded-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .uploaded-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .delete-btn {
+            margin-left: 10px;
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #e60000;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-left">
+        <div class="sport-connect">Sport Connect</div>
+        <button type="button" class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i> Back</button>
+    </div>
+
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="header">
+                <img src="sport1.jpg" alt="Profile Icon" class="profile-icon" id="profilePhoto">
+                <button type="button" class="change-photo-btn" onclick="document.getElementById('profilePhotoInput').click();">Change Profile Photo</button>
+                <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="changeProfilePhoto(event)">
+                <h1>Association Profile Details</h1>
+            </div>
+
+            <div class="section">
+                <label for="associationName">Association Name</label>
+                <div class="text-with-image">
+                    <textarea id="associationName" placeholder="Enter Association Name"></textarea>
+                    <img src="https://cdn-icons-png.flaticon.com/128/681/681494.png" alt="Icon">
+                </div>
+                <p id="associationNameError" style="color:red;"></p>
+
+                <label for="registrationNumber">Registration Number</label>
+                <div class="text-with-image">
+                    <textarea id="registrationNumber" placeholder="Enter Registration Number"></textarea>
+                    <img src="https://cdn-icons-png.flaticon.com/128/1001/1001371.png" alt="Icon">
+                </div>
+                <p id="registrationNumberError" style="color:red;"></p>
+
+                <label for="emailId">Email Address</label>
+                <div class="text-with-image">
+                    <textarea id="emailId" placeholder="Enter Email Address"></textarea>
+                    <img src="https://cdn-icons-png.flaticon.com/128/542/542638.png" alt="Icon">
+                </div>
+                <p id="emailIdError" style="color:red;"></p>
+
+                <label>Type of Association</label>
+                <div class="button-group">
+                    <input type="radio" id="government" name="associationType" value="Government">
+                    <label for="government" onclick="updateAssociationType('Government')">Government</label>
+                    <input type="radio" id="private" name="associationType" value="Private">
+                    <label for="private" onclick="updateAssociationType('Private')">Private</label>
+                </div>
+                <p id="associationTypeError" style="color:red;"></p>
+                <p id="associationTypeMessage" class="message"></p>
+
+                <label for="contactNumber">Contact Number</label>
+                <div class="text-with-image">
+                    <textarea id="contactNumber" placeholder="Enter Contact Number"></textarea>
+                    <img src="https://cdn-icons-png.flaticon.com/128/54/54481.png" alt="Icon">
+                </div>
+                <p id="contactNumberError" style="color:red;"></p>
+                
+                <!-- Added ID and password inputs -->
+                <label for="association-id-edit">Generated ID</label>
+                <textarea id="association-id-edit" placeholder="Enter Generated ID"></textarea>
+                <p id="associationIdError" style="color:red;"></p>
+
+                <label for="association-password">Password</label>
+                <textarea id="association-password" placeholder="Enter Password"></textarea>
+                <p id="associationPasswordError" style="color:red;"></p>
+
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="section">
+                <h2>Physical Statistics</h2>
+                <!-- Content for Physical Statistics -->
+            </div>
+
+            <div class="section">
+                <h2>Upload Certificates</h2>
+                <label for="certificatesInput">Upload Certificates</label>
+                <input type="file" id="certificatesInput" accept=".doc" class="upload-certificates-btn">
+                <div class="uploaded-certificates" id="uploadedCertificates"></div>
+            </div>
+
+            <div class="section">
+                <h2>Upload Images</h2>
+                <label for="imagesInput">Upload Images</label>
+                <input type="file" id="imagesInput" accept="image/*" class="upload-images-btn" multiple onchange="uploadImages(event)">
+                <div id="uploadedImages"></div>
+            </div>
+
+            <div class="section">
+                <button class="submit-button" onclick="validateAndSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript functions -->
+    <script>
+        // Function to validate and submit form
+        function validateAndSubmit() {
+          const associationName = document.getElementById('associationName').value.trim();
+          const registrationNumber = document.getElementById('registrationNumber').value.trim();
+          const emailId = document.getElementById('emailId').value.trim();
+          const contactNumber = document.getElementById('contactNumber').value.trim();
+          const generatedId = document.getElementById('association-id-edit').value.trim();
+          const password = document.getElementById('association-password').value.trim();
+          const associationType = document.querySelector('input[name="associationType"]:checked');
+
+          // Check for missing fields
+          if (!associationName || !registrationNumber || !emailId || !contactNumber || !generatedId || !password || !associationType) {
+            alert('One or more fields are missing.');
+            return;
+          }
+
+          const associationData = {
+            name: associationName,
+            registrationNumber,
+            email: emailId,
+            contactNumber,
+            generatedId,
+            password,
+            associationType: associationType.value
+          };
+
+          // Submit data
+          fetch('http://localhost:3000/saveAssociation', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(associationData)
+          })
+          .then(response => response.text())
+          .then(message => {
+            if (message === 'Association Saved') {
+              window.location.href = 'home.html';
+            } else {
+              alert('Error: ' + message);
+            }
+          })
+          .catch(err => alert('Error submitting form: ' + err));
+        }
+
+        function changeProfilePhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePhoto').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        function uploadImages(event) {
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                uploadedImages.push(files[i]);
+            }
+            displayUploadedImages();
+        }
+
+    </script>
+</body>
+</html>

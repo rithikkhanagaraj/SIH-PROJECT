@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Grid</title>
+    <style>
+        /* General body and container styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('bgf.jpg') no-repeat fixed;
+            background-size: cover;
+            height: 100%; /* Allow full height */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        /* Back button styling */
+        #back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000; /* Ensure the button stays on top */
+        }
+
+        #back-button:hover {
+            background-color: #6c5ce7;
+        }
+
+        /* Add Event button styling */
+        .add-event-button {
+            display: block;
+            margin: 20px auto; /* Center the button horizontally */
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-event-button:hover {
+            background-color: #218838;
+        }
+
+        /* Wrapper to hold the grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Three columns */
+            grid-gap: 0px; /* No space between columns */
+            width: 90vw; /* Occupy 90% of the viewport width */
+            justify-items: center;
+            align-items: center;
+            margin: 20px auto; /* Add margin for spacing */
+        }
+
+        /* Container styling for images */
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Styling for each image container */
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Maintain aspect ratio while covering the container */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 320px;
+        }
+
+        /* Middle column container */
+        .grid-container > .container:nth-child(2) {
+            align-items: center;
+        }
+
+        /* Hover effect */
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive behavior */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                height: auto;
+            }
+            .image-container {
+                width: 100%;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .image-container {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Back button -->
+<button id="back-button">Back</button>
+
+<div class="main-container">
+    <center>
+        <h1>Association Events</h1>
+        <!-- Add Event button -->
+        <button class="add-event-button" onclick="addEvent()">Add Event</button>
+    </center>
+    <div class="grid-container">
+        <!-- Left Container -->
+        <div class="container">
+            <div class="image-container">
+                <img src="image2.png" alt="Image 1" onclick="openCommonPage()">
+            </div>
+            <div class="image-container">
+                <img src="image1.jpg" alt="Image 2" onclick="openCommonPage()">
+            </div>
+        </div>
+
+        <!-- Middle Container -->
+        <div class="container">
+            <div class="image-container">
+                <img src="image4.jpeg" alt="Image 3" onclick="openCommonPage()">
+            </div>
+            <div class="image-container">
+                <img src="image5.png" alt="Image 4" onclick="openCommonPage()">
+            </div>
+        </div>
+
+        <!-- Right Container -->
+        <div class="container">
+            <div class="image-container">
+                <img src="image3.png" alt="Image 5" onclick="openCommonPage()">
+            </div>
+            <div class="image-container">
+                <img src="image6.jpeg" alt="Image 6" onclick="openCommonPage()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openCommonPage() {
+        window.location.href = 'reg.html';
+    }
+
+    document.getElementById('back-button').onclick = function() {
+        window.history.back();
+    };
+       
+
+    function addEvent() {
+        window.location.href = 'v.html';
+    }
+</script>
+
+</body>
+</html>

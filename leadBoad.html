@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Leaderboard UI</title>
+  <style>
+   body {
+    font-family: Arial, sans-serif;
+    background-image: url('sports.jpg'); /* Updated with the new image */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+  }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .leaderboard-container,
+    .player-details-container {
+      flex: 1;
+      min-width: 300px;
+      max-width: 48%;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    #back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #6c5ce7;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      z-index: 9000;
+      transition: background-color 0.3s;
+
+            padding: 0.5rem 1rem;
+            border: none;
+      
+            color: white;
+            
+            cursor: pointer;
+        }
+    .category-button {
+      background-color:#6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+    }
+    .category-button:hover {
+      background-color:#6c5ce7;
+    }
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .sort-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .sort-button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px 20px;
+      transition: background-color 0.3s;
+    }
+    .sort-button:hover {
+      background-color: #218838;
+    }
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .leaderboard-item:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.02);
+    }
+    .player-info {
+      display: flex;
+      align-items: center;
+    }
+    .player-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .player-avatar:hover {
+      transform: scale(1.1);
+    }
+    .player-name {
+      font-size: 18px;
+      color: #333;
+    }
+    .player-role {
+      font-size: 14px;
+      color: #888;
+    }
+    .activity-score {
+      font-size: 18px;
+      color: #333;
+      text-align: right;
+    }
+    #myPieChart,
+    #topPlayersBarChart {
+      max-width: 100%;
+      max-height: 300px;
+      margin: 20px auto;
+    }
+    .user-details {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .player-achievements {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #666;
+    }
+    .input-container {
+      margin-top: 20px;
+    }
+    .input-container input {
+      width: 40px;
+      margin: 0 5px;
+      text-align: center;
+    }
+    .update-button {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    /* Popup Styles */
+    #categoryPopup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      width: 300px;
+    }
+    .popup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
+    }
+    #categoryPopup button {
+      padding: 10px;
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #categoryPopup button:hover {
+      background-color: #6c5ce7;
+    }
+    .close-popup {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Button -->
+  <button id="back-button">Back</button>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Left Side Leaderboard -->
+    <div class="leaderboard-container">
+      <h1>Leaderboard</h1>
+      <input type="text" id="searchBar" class="search-bar" placeholder="Search by player name" oninput="filterPlayers()">
+      <div class="sort-buttons">
+        <button class="sort-button" onclick="sortByScore()">Sort by Score</button>
+        <button class="sort-button" onclick="sortByName()">Sort by Name</button>
+      </div>
+      <button class="category-button" onclick="showCategoryPopup()">Select Category</button>
+      <div id="leaderboardList">
+        <!-- Leaderboard Items will be injected here -->
+      </div>
+    </div>
+
+    <!-- Right Side for Player Details and Pie Chart -->
+    <div class="player-details-container">
+      <h1>Player Details</h1>
+      <div class="user-details">
+        <img id="playerImage" src="" alt="Player Avatar" class="player-avatar">
+        <p id="playerName">Player Name</p>
+        <p id="playerRole">Player Role</p>
+        <div class="player-achievements" id="playerAchievements">Player Achievements</div>
+        <canvas id="myPieChart"></canvas>
+
+        <!-- Input fields for chart data -->
+        <div class="input-container">
+          <input type="number" id="score1" placeholder="Score 1">
+          <input type="number" id="score2" placeholder="Score 2">
+          <input type="number" id="score3" placeholder="Score 3">
+          <input type="number" id="score4" placeholder="Score 4">
+          <button class="update-button" onclick="updateChartData()">Update</button>
+        </div>
+
+        <!-- Last Week's Top 3 Players Container -->
+        <div>
+          <h1>Last Week's Top 3 Players</h1>
+          <canvas id="topPlayersBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="categoryPopup">
+    <div class="popup-grid">
+      <button onclick="selectCategory('Basketball')">Basketball</button>
+      <button onclick="selectCategory('Soccer')">Soccer</button>
+      <button onclick="selectCategory('Tennis')">Tennis</button>
+      <button onclick="selectCategory('Swimming')">Swimming</button>
+      <button onclick="selectCategory('Cycling')">Cycling</button>
+      <button onclick="selectCategory('Running')">Running</button>
+      <button onclick="selectCategory('Volleyball')">Volleyball</button>
+      <button onclick="selectCategory('Badminton')">Badminton</button>
+      <button onclick="selectCategory('Boxing')">Boxing</button>
+      <button onclick="selectCategory('Golf')">Golf</button>
+    </div>
+    <button class="close-popup" onclick="closeCategoryPopup()">Close</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+   const playerData = {
+  // Basketball Players
+  'John Doe': { role: 'Basketball Player', achievements: 'Great performance with a high score in all games', chartData: [20, 30, 20, 25], avatar: 'https://randomuser.me/api/portraits/men/1.jpg', totalScore: 95, category: 'Basketball' },
+  'Chris Evans': { role: 'Basketball Player', achievements: 'Excellent 3-point shooter', chartData: [22, 28, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/10.jpg', totalScore: 100, category: 'Basketball' },
+  'James Smith': { role: 'Basketball Player', achievements: 'MVP of the season', chartData: [30, 20, 25, 20], avatar: 'https://randomuser.me/api/portraits/men/20.jpg', totalScore: 95, category: 'Basketball' },
+  'Michael Jordan': { role: 'Basketball Player', achievements: 'Legendary performance in finals', chartData: [25, 30, 15, 25], avatar: 'https://randomuser.me/api/portraits/men/21.jpg', totalScore: 95, category: 'Basketball' },
+  'Kobe Bryant': { role: 'Basketball Player', achievements: 'Unmatched scoring ability', chartData: [30, 20, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/22.jpg', totalScore: 105, category: 'Basketball' },
+  'Stephen Curry': { role: 'Basketball Player', achievements: '3-point king', chartData: [22, 30, 28, 25], avatar: 'https://randomuser.me/api/portraits/men/23.jpg', totalScore: 105, category: 'Basketball' },
+  'Kevin Durant': { role: 'Basketball Player', achievements: 'High scoring forward', chartData: [28, 25, 30, 30], avatar: 'https://randomuser.me/api/portraits/men/24.jpg', totalScore: 113, category: 'Basketball' },
+  'Anthony Davis': { role: 'Basketball Player', achievements: 'Excellent shot-blocker', chartData: [25, 20, 28, 22], avatar: 'https://randomuser.me/api/portraits/men/25.jpg', totalScore: 95, category: 'Basketball' },
+  'LeBron James': { role: 'Basketball Player', achievements: 'Dominant all-around player', chartData: [30, 30, 30, 30], avatar: 'https://randomuser.me/api/portraits/men/26.jpg', totalScore: 120, category: 'Basketball' },
+  'Dwyane Wade': { role: 'Basketball Player', achievements: 'Elite scorer and defender', chartData: [28, 20, 22, 25], avatar: 'https://randomuser.me/api/portraits/men/27.jpg', totalScore: 95, category: 'Basketball' },
+
+  // Soccer Players
+  'Jane Smith': { role: 'Soccer Player', achievements: 'Top scorer in the league', chartData: [30, 25, 20, 25], avatar: 'https://randomuser.me/api/portraits/women/2.jpg', totalScore: 100, category: 'Soccer' },
+  'Emily Clarke': { role: 'Soccer Player', achievements: 'Best defensive player in the league', chartData: [25, 30, 25, 20], avatar: 'https://randomuser.me/api/portraits/women/10.jpg', totalScore: 95, category: 'Soccer' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Tennis Players
+  'Mike Johnson': { role: 'Tennis Player', achievements: 'Recent champion of the national tournament', chartData: [25, 30, 10, 25], avatar: 'https://randomuser.me/api/portraits/men/3.jpg', totalScore: 90, category: 'Tennis' },
+  'Robert Downey': { role: 'Tennis Player', achievements: 'Reached the finals of a major tournament', chartData: [20, 30, 15, 25], avatar: 'https://randomuser.me/api/portraits/men/11.jpg', totalScore: 90, category: 'Tennis' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more tennis player profiles with similar structure...
+
+  // Swimming Players
+  'Lisa Adams': { role: 'Swimming Athlete', achievements: 'Record breaker in the freestyle event', chartData: [25, 20, 13, 25], avatar: 'https://randomuser.me/api/portraits/women/4.jpg', totalScore: 83, category: 'Swimming' },
+  'Mia Thompson': { role: 'Swimming Athlete', achievements: 'Multiple gold medalist in freestyle', chartData: [20, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/women/11.jpg', totalScore: 95, category: 'Swimming' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more swimming player profiles...
+
+  // Cycling Players
+  'Sarah Williams': { role: 'Cyclist', achievements: 'Winner of the annual cycling race', chartData: [20, 12, 25, 30], avatar: 'https://randomuser.me/api/portraits/women/5.jpg', totalScore: 87, category: 'Cycling' },
+  'Luke Walker': { role: 'Cyclist', achievements: 'Top finisher in regional competition', chartData: [30, 25, 15, 20], avatar: 'https://randomuser.me/api/portraits/men/12.jpg', totalScore: 90, category: 'Cycling' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more cycling player profiles...
+
+  // Running Players
+  'Tom Brown': { role: 'Runner', achievements: 'Marathon champion with a record time', chartData: [30, 25, 20, 18], avatar: 'https://randomuser.me/api/portraits/men/6.jpg', totalScore: 93, category: 'Running' },
+  'Olivia Brown': { role: 'Runner', achievements: 'Fastest sprinter in the city', chartData: [25, 30, 20, 20], avatar: 'https://randomuser.me/api/portraits/women/12.jpg', totalScore: 95, category: 'Running' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more running player profiles...
+
+  // Volleyball Players
+  'Anna Lee': { role: 'Volleyball Player', achievements: 'MVP of the season', chartData: [25, 30, 25, 20], avatar: 'https://randomuser.me/api/portraits/women/7.jpg', totalScore: 100, category: 'Volleyball' },
+  'Daniel White': { role: 'Volleyball Player', achievements: 'Named the best blocker of the season', chartData: [20, 30, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/13.jpg', totalScore: 100, category: 'Volleyball' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more volleyball player profiles...
+
+  // Badminton Players
+  'Rachel Green': { role: 'Badminton Player', achievements: 'Winner of the state championships', chartData: [11, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/8.jpg', totalScore: 91, category: 'Badminton' },
+  'Sophia Jackson': { role: 'Badminton Player', achievements: 'Undefeated in the state championships', chartData: [20, 20, 30, 25], avatar: 'https://randomuser.me/api/portraits/women/13.jpg', totalScore: 95, category: 'Badminton' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more badminton player profiles...
+
+  // Boxing Players
+  'David Brown': { role: 'Boxer', achievements: 'Champion in the regional boxing tournament', chartData: [30, 19, 25, 25], avatar: 'https://randomuser.me/api/portraits/men/7.jpg', totalScore: 90, category: 'Boxing' },
+  'Kevin Rogers': { role: 'Boxer', achievements: 'National boxing champion', chartData: [30, 25, 20, 25], avatar: 'https://randomuser.me/api/portraits/men/14.jpg', totalScore: 100, category: 'Boxing' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more boxing player profiles...
+
+  // Golf Players
+  'Sophia Davis': { role: 'Golfer', achievements: 'Top 10 in the national golf rankings', chartData: [25, 30, 20, 15], avatar: 'https://randomuser.me/api/portraits/women/9.jpg', totalScore: 89, category: 'Golf' },
+  'Emma Watson': { role: 'Golfer', achievements: 'Ranked in the top 5 nationally', chartData: [30, 20, 25, 20], avatar: 'https://randomuser.me/api/portraits/women/14.jpg', totalScore: 95, category: 'Golf' },
+  'David Beckham': { role: 'Soccer Player', achievements: 'Renowned for free-kick ability', chartData: [20, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/30.jpg', totalScore: 100, category: 'Soccer' },
+  'Cristiano Ronaldo': { role: 'Soccer Player', achievements: 'Scoring legend', chartData: [30, 30, 25, 30], avatar: 'https://randomuser.me/api/portraits/men/31.jpg', totalScore: 115, category: 'Soccer' },
+  'Lionel Messi': { role: 'Soccer Player', achievements: 'Magician with the ball', chartData: [30, 25, 30, 25], avatar: 'https://randomuser.me/api/portraits/men/32.jpg', totalScore: 110, category: 'Soccer' },
+  'Megan Rapinoe': { role: 'Soccer Player', achievements: 'World champion', chartData: [25, 25, 20, 30], avatar: 'https://randomuser.me/api/portraits/women/33.jpg', totalScore: 100, category: 'Soccer' },
+  'Alex Morgan': { role: 'Soccer Player', achievements: 'Key striker', chartData: [20, 30, 25, 25], avatar: 'https://randomuser.me/api/portraits/women/34.jpg', totalScore: 100, category: 'Soccer' },
+  'Neymar Jr.': { role: 'Soccer Player', achievements: 'Flair and skills', chartData: [30, 25, 30, 20], avatar: 'https://randomuser.me/api/portraits/men/35.jpg', totalScore: 105, category: 'Soccer' },
+  'Kylian Mbappe': { role: 'Soccer Player', achievements: 'Fastest striker', chartData: [28, 30, 25, 22], avatar: 'https://randomuser.me/api/portraits/men/36.jpg', totalScore: 105, category: 'Soccer' },
+  'Sergio Ramos': { role: 'Soccer Player', achievements: 'Defensive wall', chartData: [30, 20, 20, 30], avatar: 'https://randomuser.me/api/portraits/men/37.jpg', totalScore: 100, category: 'Soccer' },
+
+  // Add 8 more golf player profiles...
+};
+
+
+    let currentPlayer = null;
+    let currentChart;
+    let topPlayersChart;
+
+    function renderLeaderboard(players) {
+      const leaderboardList = document.getElementById('leaderboardList');
+      leaderboardList.innerHTML = '';
+      Object.keys(players).forEach(name => {
+        const player = players[name];
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        item.onclick = () => showPlayerDetails(name);
+        item.innerHTML = `
+          <div class="player-info">
+            <img src="${player.avatar}" alt="${name}" class="player-avatar">
+            <div>
+              <div class="player-name">${name}</div>
+              <div class="player-role">${player.role}</div>
+            </div>
+          </div>
+          <div class="activity-score">${player.totalScore}</div>
+        `;
+        leaderboardList.appendChild(item);
+      });
+    }
+
+    function showPlayerDetails(name) {
+      currentPlayer = name;
+      const player = playerData[name];
+      document.getElementById('playerName').textContent = name;
+      document.getElementById('playerRole').textContent = player.role;
+      document.getElementById('playerAchievements').textContent = player.achievements;
+      document.getElementById('playerImage').src = player.avatar;
+
+      // Remove existing chart instance if it exists
+      if (currentChart) currentChart.destroy();
+
+      // Render new pie chart with player data
+      const pieChartCtx = document.getElementById('myPieChart').getContext('2d');
+      currentChart = new Chart(pieChartCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Score 1', 'Score 2', 'Score 3', 'Score 4'],
+          datasets: [{
+            data: player.chartData,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+          }]
+        }
+      });
+
+      // Set input fields to current chart data
+      document.getElementById('score1').value = player.chartData[0];
+      document.getElementById('score2').value = player.chartData[1];
+      document.getElementById('score3').value = player.chartData[2];
+      document.getElementById('score4').value = player.chartData[3];
+
+      updateTopPlayersChart();
+    }
+
+    function updateChartData() {
+      if (!currentPlayer) return;
+      const player = playerData[currentPlayer];
+
+      // Get the new data from input fields
+      player.chartData = [
+        parseInt(document.getElementById('score1').value) || 0,
+        parseInt(document.getElementById('score2').value) || 0,
+        parseInt(document.getElementById('score3').value) || 0,
+        parseInt(document.getElementById('score4').value) || 0
+      ];
+
+      // Update the total score
+      player.totalScore = player.chartData.reduce((a, b) => a + b, 0);
+
+      // Refresh the player details
+      showPlayerDetails(currentPlayer);
+      renderLeaderboard(playerData);
+      updateTopPlayersChart();
+    }
+
+    function updateTopPlayersChart() {
+      const topPlayers = Object.entries(playerData)
+        .sort((a, b) => b[1].totalScore - a[1].totalScore)
+        .slice(0, 3);
+
+      const names = topPlayers.map(player => player[0]);
+      const scores = topPlayers.map(player => player[1].totalScore);
+
+      if (topPlayersChart) topPlayersChart.destroy();
+
+      const ctx = document.getElementById('topPlayersBarChart').getContext('2d');
+      topPlayersChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: names,
+          datasets: [{
+            label: 'Last Week\'s Top 3 Players',
+            data: scores,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function showCategoryPopup() {
+      document.getElementById('categoryPopup').style.display = 'block';
+    }
+
+    function closeCategoryPopup() {
+      document.getElementById('categoryPopup').style.display = 'none';
+    }
+
+    function selectCategory(category) {
+      const filteredPlayers = Object.entries(playerData)
+        .filter(([name, player]) => player.category === category)
+        .slice(0, 10); // Select only the first 10 profiles
+
+      const filteredPlayersObj = Object.fromEntries(filteredPlayers);
+      renderLeaderboard(filteredPlayersObj);
+      closeCategoryPopup();
+    }
+
+    function sortByScore() {
+      const sortedPlayers = Object.fromEntries(
+        Object.entries(playerData).sort((a, b) => b[1].totalScore - a[1].totalScore)
+      );
+      renderLeaderboard(sortedPlayers);
+    }
+
+    function sortByName() {
+      const sortedPlayers = Object.fromEntries(
+        Object.entries(playerData).sort((a, b) => a[0].localeCompare(b[0]))
+      );
+      renderLeaderboard(sortedPlayers);
+    }
+
+    function filterPlayers() {
+      const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+      const filteredPlayers = Object.fromEntries(
+        Object.entries(playerData).filter(([name]) => name.toLowerCase().includes(searchTerm))
+      );
+      renderLeaderboard(filteredPlayers);
+    }
+
+    renderLeaderboard(playerData);
+
+    document.getElementById('back-button').onclick = function() {
+        window.history.back();
+    };
+  </script>
+</body>
+</html>

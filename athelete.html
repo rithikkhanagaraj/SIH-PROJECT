@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athlete Profile Set Up</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            position: relative;
+            padding-bottom: 50px; 
+            background-image: url('bgf.jpg');
+        }
+
+        .navigation-buttons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .nav-text {
+            color:#6c5ce7;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            background-color: #6c5ce7;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            width: 80%;
+            
+        }
+
+        .form-section, .stats-section {
+            flex: 1;
+            background-color: #fff;
+            border: 1px solid #6c5ce7;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            height: auto;
+            min-height: 80vh;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            margin-right: 10px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            flex: 1;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #6c5ce7;
+            margin-left: 10px;
+            text-align: center;
+        }
+
+        .input-wrapper img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .submit-btn {
+            display: block;
+            padding: 10px;
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .submit-btn:hover {
+            background-color: #6c5ce7;
+        }
+
+        #upload-photo {
+            display: none;
+        }
+
+        #profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Footer container styling */
+        .footer-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #6c5ce7;
+        }
+
+        .footer-links a:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation-buttons">
+        <div class="nav-text">Sport Connect</div>
+        <button type="button" class="back-btn"><i class="fa fa-arrow-left"></i> Back</button>
+    </div>
+
+    <!-- Container for form and stats sections -->
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <div class="centered">
+                <img id="profile-img" src="profile1.jpg" alt="Profile Icon">
+                <br>
+                <input type="file" id="upload-photo" accept="image/*" onchange="previewImage(event)" />
+                <button type="button" class="submit-btn" onclick="document.getElementById('upload-photo').click();">Upload Profile Photo</button>
+                <h3>Athlete Profile Set Up!</h3>
+            </div>
+            
+            <form id="athleteForm">
+                <div class="input-group">
+                    <label for="name"><i class="fa fa-user"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/3033/3033143.png" alt="Name Icon">
+                        <input type="text" id="name" name="name" placeholder="Name">
+                        <span id="name-error" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="age"><i class="fa fa-calendar"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/5527/5527868.png" alt="Age Icon">
+                        <input type="number" id="age" name="age" placeholder="Age">
+                        <span id="age-error" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="gender"><i class="fa fa-venus-mars"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/5069/5069091.png" alt="Gender Icon">
+                        <select id="gender" name="gender">
+                            <option value="" disabled selected>Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span id="gender-error" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="sport"><i class="fa fa-futbol-o"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/6627/6627966.png" alt="Sport Icon">
+                        <select id="sport" name="sport">
+                            <option value="" disabled selected>Select Sport</option>
+                            <option value="Soccer">Soccer</option>
+                            <option value="Basketball">Basketball</option>
+                            <option value="Tennis">Tennis</option>
+                            <option value="Cricket">Cricket</option>
+                            <option value="Swimming">Swimming</option>
+                            <option value="Badminton">Badminton</option>
+                            <option value="Baseball">Baseball</option>
+                            <option value="Athletics">Athletics</option>
+                            <option value="Gymnastics">Gymnastics</option>
+                            <option value="Boxing">Boxing</option>
+                        </select>
+                        <span id="sport-error" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="height"><i class="fa fa-arrows-v"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/7931/7931059.png" alt="Height Icon">
+                        <input type="number" step="0.01" id="height" name="height" placeholder="Height (cm)">
+                        <span id="height-error" class="error-message"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="weight"><i class="fa fa-balance-scale"></i></label>
+                    <div class="input-wrapper">
+                        <img src="https://cdn-icons-png.flaticon.com/128/7653/7653354.png" alt="Weight Icon">
+                        <input type="number" step="0.01" id="weight" name="weight" placeholder="Weight (kg)">
+                        <span id="weight-error" class="error-message"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <h2>Physical Statistics</h2>
+            <form id="stats-form">
+                <div class="stats-group">
+                    <div class="input-group">
+                        <label for="stat-bmi"><i class="fa fa-arrows-v"></i></label>
+                        <div class="input-wrapper">
+                            <img src="https://cdn-icons-png.flaticon.com/128/14536/14536361.png" alt="BMI Icon">
+                            <input type="number" step="0.01" id="stat-bmi" name="stat-bmi" placeholder="BMI">
+                            <span id="stat-bmi-error" class="error-message"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="stat-heart-rate"><i class="fa fa-heartbeat"></i></label>
+                        <div class="input-wrapper">
+                            <img src="https://cdn-icons-png.flaticon.com/128/151/151910.png" alt="Heart Rate Icon">
+                            <input type="number" id="stat-heart-rate" name="stat-heart-rate" placeholder="Heart Rate (BPM)">
+                            <span id="stat-heart-rate-error" class="error-message"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="stat-blood-pressure"><i class="fa fa-tint"></i></label>
+                        <div class="input-wrapper">
+                            <img src="https://cdn-icons-png.flaticon.com/128/10475/10475885.png" alt="Blood Pressure Icon">
+                            <input type="text" id="stat-blood-pressure" name="stat-blood-pressure" placeholder="Blood Pressure">
+                            <span id="stat-blood-pressure-error" class="error-message"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="stat-speed"><i class="fa fa-tachometer"></i></label>
+                        <div class="input-wrapper">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1690/1690429.png" alt="Speed Icon">
+                            <input type="number" step="0.01" id="stat-speed" name="stat-speed" placeholder="Calories">
+                            <span id="stat-speed-error" class="error-message"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn" onclick="Submit()"><i class="fa fa-floppy-o"></i> Submit</button>
+                </div>
+           
+            <br>
+                <p>© 2024 Athlete Profile. All rights reserved.</p>
+                <div class="footer-links">
+                   <ul>
+                 <li>  <a href="#">Privacy Policy</a></li>
+                   <li> <a href="#">Terms of Service</a></li>
+                  <li>  <a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-container">
+        <p>© 2024 Athlete Profile. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('athleteForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                generatedId: document.getElementById('generatedId').value,
+                password: document.getElementById('password').value,
+                sport: document.getElementById('sport').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                height: document.getElementById('height').value,
+                weight: document.getElementById('weight').value,
+                email: document.getElementById('email').value,
+                contactNumber: document.getElementById('contactNumber').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:4000/saveAthlete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Athlete saved successfully');
+                } else {
+                    alert('Error saving athlete');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to save athlete');
+            }
+        });
+
+        function submit(){
+            window.location.href = 'home1.html';
+        }
+    </script>
+
+
+    </body>
+</html>

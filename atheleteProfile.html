@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athelete Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+    background: url('bgf.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    position: relative;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sport-connect {
+            font-size: 24px;
+            color: #333;
+            margin-right: 20px;
+        }
+
+        .back-btn {
+            background-color: #6c5ce7;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background-color: #6c5ce7;
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            max-width: 1200px;
+            height: 100%;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 60%;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .profile-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .profile-section img {
+            width: 50%;
+            height: 35%;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s;
+        }
+
+        .profile-section img:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-section h2, #profileNameInput, #gameInput, #matchesInput, #placeInput {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .profile-section input[type="file"] {
+            display: none;
+        }
+
+        #profileName,
+        #gameType,
+        #matches,
+        #place {
+            display: block;
+        }
+
+        #profilePicMain {
+            cursor: pointer;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .profile-stats p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .profile-stats input {
+            margin-left: 5px;
+            font-size: 14px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .bio-textarea {
+            width: 100%;
+            height: 80px;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Edit button with icon */
+        .edit-btn {
+            background-color: #6c5ce7;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 10px;
+            margin-bottom: 10px;
+            position: absolute;
+            top: 1px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .edit-btn i {
+            font-size: 16px;
+        }
+
+        /* Small container for buttons */
+        .small-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .small-container button {
+            background-color: #6c5ce7;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .small-container button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .media-container {
+            width: 40%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-gap: 10px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+
+        .media-container img, .media-container video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .media-container img:hover, .media-container video:hover {
+            transform: scale(1.05);
+        }
+
+        /* Posts text heading */
+        .posts-heading {
+            text-align: left;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="sport-connect">Sport Connect</div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <button class="edit-btn" onclick="toggleEditMode()">
+                    <i class="fas fa-edit"></i>Edit Profile
+                </button>
+                <img src="i1.jpg" alt="Profile Picture" id="profilePicMain" onclick="document.getElementById('profilePicInput').click()">
+                <input type="file" id="profilePicInput" accept="image/*">
+                <h2 id="profileName">VEERA  MANIKANDAN</h2>
+                <input type="text" id="profileNameInput" value="NAME">
+                <p id="gameType">ATHLETE | 26 </p>
+                <input type="text" id="gameInput" value="Football"><br>
+                <div class="profile-stats">
+                    <p><strong>Height</strong> <span id="matches">169  <input type="number" id="matchesInput" value="169"></span></p>
+                   
+                    <p><strong>Weight</strong> <span id="place">45</span></p>
+                    <input type="text" id="placeInput" value="34">
+                </div>
+                <textarea class="bio-textarea" placeholder="Update your bio here..."></textarea>
+
+                <!-- Small Container with Buttons -->
+                <div class="small-container">
+                        <button onclick="window.location.href='atheletejourney.html'">My Journey</button>
+                  
+                        <button onclick="window.location.href='fitness.html'">Fitness</button>
+                    </div>
+
+                </div>
+            </div>
+        
+
+       
+        <!-- Media Container -->
+        <div class="media-container">
+            <!-- Posts Text -->
+            <div class="posts-heading">Posts</div><br>
+
+            <!-- Photos and Videos -->
+            <img src="c2.jpg" alt="Photo 5"> 
+            <img src="i4.jpg" alt="Photo 6">
+            <img src="i3.jpg" alt="Photo 2">
+            <img src="i1.jpg" alt="Photo 4">
+            <img src="c3.jpg" alt="Photo 3">
+            <img src="c4.jpg" alt="Photo 3">
+            <img src="i2.jpg" alt="Photo 3">
+            <img src="i5.jpg" alt="Photo 3">
+            <img src="c1.jpg" alt="Photo 6">
+
+           
+
+        </div>
+    </div>
+    <script>
+        let isEditMode = false;
+
+        function toggleEditMode() {
+            const profileName = document.getElementById('profileName');
+            const profileNameInput = document.getElementById('profileNameInput');
+            const gameType = document.getElementById('gameType');
+            const gameInput = document.getElementById('gameInput');
+            const matches = document.getElementById('matches');
+            const matchesInput = document.getElementById('matchesInput');
+            const place = document.getElementById('place');
+            const placeInput = document.getElementById('placeInput');
+            const editBtn = document.querySelector('.edit-btn');
+
+            if (isEditMode) {
+                // Save changes
+                profileName.innerText = profileNameInput.value;
+                gameType.innerText = gameInput.value;
+                matches.innerText = matchesInput.value;
+                place.innerText = placeInput.value;
+
+                profileName.style.display = 'block';
+                profileNameInput.style.display = 'none';
+                gameType.style.display = 'block';
+                gameInput.style.display = 'none';
+                matches.style.display = 'block';
+                matchesInput.style.display = 'none';
+                place.style.display = 'block';
+                placeInput.style.display = 'none';
+
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+            } else {
+                // Edit mode
+                profileName.style.display = 'none';
+                profileNameInput.style.display = 'block';
+                gameType.style.display = 'none';
+                gameInput.style.display = 'block';
+                matches.style.display = 'none';
+                matchesInput.style.display = 'block';
+                place.style.display = 'none';
+                placeInput.style.display = 'block';
+
+                editBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            }
+            isEditMode = !isEditMode;
+        }
+
+        document.getElementById('profilePicInput').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                document.getElementById('profilePicMain').src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        function goBack() {
+            window.location.href = 'home1.html';
+        }
+    </script>
+    <!-- Font Awesome Icons for Edit -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

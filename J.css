@@ -1,0 +1,236 @@
+/* Page Load Fade-in Animation */
+@keyframes pageLoadFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+body {
+    background: url('bgf.jpg') no-repeat  fixed;
+    font-family: 'Verdana', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    animation: pageLoadFadeIn 1s ease-in-out; /* Add the page load animation */
+}
+
+header {
+    background: url('bgf.jpg') no-repeat  fixed;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    font-size: 2em;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    background-color: #6c5ce7;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-btn:hover {
+    transform: scale(1.1);
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+    gap: 20px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    width: 30%;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+    transform: translateY(50px);
+    max-height: 600px;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+}
+
+.container:hover .content h2 {
+    color: #6c5ce7;
+    transform: scale(1.1);
+}
+
+.year {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #6c5ce7;
+    color: rgb(8, 8, 8);
+    padding: 10px 20px;
+    border-radius: 0 0 20px 0;
+    font-size: 1.2em;
+}
+
+.content {
+    padding-top: 40px;
+}
+
+h2 {
+    color: #333;
+}
+
+p {
+    color: #555;
+}
+
+/* Media section styling */
+.media {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Space between images */
+}
+
+.media img {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.media img:hover {
+    transform: scale(1.1);
+}
+
+.media p {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    text-align: center;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.submit-btn {
+    background-color: #6c5ce7;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #6c5ce7;
+}
+
+/* Preloader Styling */
+#preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #6c5ce7;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fade-in animations */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

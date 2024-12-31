@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="e.css">
+    <title>Create Form</title>
+</head>
+<body>
+    <!-- Back Button -->
+    <button id="back-button" onclick="window.history.back()">← Back</button>
+
+    <div class="form-creation-container">
+        <h1>Create a Custom Form</h1>
+        <form id="form-creation">
+            <label for="form-id">Generated ID:</label>
+            <input type="text" id="form-id" name="formID" readonly>
+            <button type="button" id="generate-id">Generate ID</button>
+
+            <label for="field-name">Field Name:</label>
+            <input type="text" id="field-name" name="fieldName" required>
+
+            <label for="field-type">Field Type:</label>
+            <select id="field-type" name="fieldType" required>
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="email">Email</option>
+                <option value="tel">Phone</option>
+            </select>
+
+            <label for="field-required">Required:</label>
+            <input type="checkbox" id="field-required" name="fieldRequired">
+
+            <label for="min-length">Min Length (for text):</label>
+            <input type="number" id="min-length" name="minLength" min="1">
+
+            <label for="max-length">Max Length (for text):</label>
+            <input type="number" id="max-length" name="maxLength" min="1">
+
+            <button type="button" id="add-field">Add Field</button><br>
+            <button type="submit">Create Form</button>
+        </form>
+        <div id="fields-container"></div>
+    </div>
+
+    <script>
+        // JavaScript for Form Creation
+        const fields = [];
+
+        // Generate ID
+        document.getElementById('generate-id').addEventListener('click', () => {
+            const uniqueID = 'ID' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('form-id').value = uniqueID;
+        });
+
+        document.getElementById('add-field').addEventListener('click', () => {
+            const fieldName = document.getElementById('field-name').value;
+            const fieldType = document.getElementById('field-type').value;
+            const fieldRequired = document.getElementById('field-required').checked;
+            const minLength = document.getElementById('min-length').value;
+            const maxLength = document.getElementById('max-length').value;
+
+            if (fieldName && fieldType) {
+                fields.push({
+                    name: fieldName,
+                    type: fieldType,
+                    required: fieldRequired,
+                    minLength: minLength ? parseInt(minLength) : null,
+                    maxLength: maxLength ? parseInt(maxLength) : null,
+                });
+
+                const fieldDisplay = document.createElement('p');
+                fieldDisplay.textContent = `Added Field: ${fieldName} (${fieldType})`;
+                document.getElementById('fields-container').appendChild(fieldDisplay);
+                
+                // Clear input fields
+                document.getElementById('form-creation').reset();
+            }
+        });
+
+        document.getElementById('form-creation').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const formID = document.getElementById('form-id').value;
+
+            if (!formID) {
+                alert('Please generate an ID for the form.');
+                return;
+            }
+
+            // Store form fields in localStorage
+            const formData = {
+                id: formID,
+                fields: fields,
+            };
+            localStorage.setItem('customFormFields', JSON.stringify(formData));
+
+            // Redirect to the form display page
+            window.location.href = 'e1.html';
+        });
+    </script>
+</body>
+</html>

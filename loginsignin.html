@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('l.png') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 900px;
+            height: 650px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: white;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .left-panel {
+            width: 50%;
+            background-color: #a36aff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .illustration {
+            width: 80%;
+            transform: translateX(-20px);
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .right-panel {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            text-align: center;
+            width: 100%;
+        }
+
+        .login-page-heading {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #6D28D9;
+            font-size: 28px;
+            font-weight: bold;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .login-page-image {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .login-type-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .login-type {
+            background-color: #6D28D9;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-type:hover {
+            background-color: #4C1D95;
+        }
+
+        .login-type.active {
+            background-color: #4C1D95;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #6D28D9;
+            font-weight: bold;
+            font-size: 24px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #6D28D9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            animation: fadeIn 1.8s ease-in-out;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #4C1D95;
+        }
+
+        .google-signin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: #649fff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .google-signin:hover {
+            background-color: #706f6f;
+        }
+
+        .google-icon {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .create-account p {
+            margin-top: 20px;
+            color: #333;
+            font-size: 14px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .create-account a {
+            color: #6D28D9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .generate-btn {
+            width: auto;
+            padding: 8px;
+            background-color: #6D28D9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background-color: #4C1D95;
+        }
+
+        .id-display {
+            margin-top: 10px;
+            color: #333;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .id-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                height: auto;
+            }
+
+            .left-panel, .right-panel {
+                width: 100%;
+                height: 300px;
+            }
+
+            .illustration {
+                transform: translateX(0);
+                animation: none;
+                width: 60%;
+            }
+
+            .login-box {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box h2 {
+                font-size: 20px;
+            }
+
+            .login-btn, .google-signin {
+                font-size: 14px;
+            }
+
+            .create-account p {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <img src="lg.png" alt="Illustration" class="illustration">
+        </div>
+        <div class="right-panel">
+            <div class="login-box">
+                <div class="login-page-heading">Sign in Page</div>
+                <div class="login-type-container">
+                    <div class="login-type" data-type="association">Association Sign in</div>
+                    <div class="login-type" data-type="athlete">Athlete Sign in</div>
+                    <div class="login-type" data-type="others">Others Sign in</div>
+                </div>
+                <div id="association-form" class="login-form">
+                    <h2>Association Login</h2>
+                    <input type="text" id="association-id" placeholder="Enter your Association Name">
+                    <button id="generate-association-id" class="generate-btn">Generate ID</button>
+                    <div id="association-id-display" class="id-display">Generated ID: </div>
+                
+                    <input type="password" id="association-password" placeholder="Enter your password">
+                    <button id="association-signin-btn" class="login-btn">Sign In</button>
+                </div>
+                <div id="athlete-form" class="login-form">
+                    <h2>Athlete Login</h2>
+                    <input type="text" id="athlete-id" placeholder="Enter your Athlete Name">
+                    <button id="generate-athlete-id" class="generate-btn">Generate ID</button>
+                    <div id="athlete-id-display" class="id-display">Generated ID: </div>
+                  
+                    <input type="password" id="athlete-password" placeholder="Enter your password">
+                    <button id="athlete-signin-btn" class="login-btn">Sign In</button>
+                </div>
+                <div id="others-form" class="login-form">
+                    <h2>Others Login</h2>
+                    <input type="text" placeholder="Enter your Username">
+                    <input type="password" placeholder="Enter your Password">
+                    <button class="login-btn">Sign In</button>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginTypes = document.querySelectorAll('.login-type');
+            const associationForm = document.getElementById('association-form');
+            const athleteForm = document.getElementById('athlete-form');
+            const othersForm = document.getElementById('others-form');
+
+            loginTypes.forEach(type => {
+                type.addEventListener('click', function () {
+                    const selectedType = this.getAttribute('data-type');
+                    associationForm.classList.remove('active');
+                    athleteForm.classList.remove('active');
+                    othersForm.classList.remove('active');
+
+                    if (selectedType === 'association') {
+                        associationForm.classList.add('active');
+                    } else if (selectedType === 'athlete') {
+                        athleteForm.classList.add('active');
+                    } else {
+                        othersForm.classList.add('active');
+                    }
+
+                    // Highlight the active login type
+                    loginTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Association Sign In
+            document.getElementById('association-signin-btn').addEventListener('click', function () {
+                const id = document.getElementById('association-id').value;
+                const password = document.getElementById('association-password').value;
+
+                if (id.trim() === '') {
+                    alert('Please enter your Association Name.');
+                    return;
+                }
+                if (password.trim() === '') {
+                    alert('Please enter your password.');
+                    return;
+                }
+
+               
+                window.location.href = 'association.html';
+            });
+
+            // Athlete Sign In
+            document.getElementById('athlete-signin-btn').addEventListener('click', function () {
+                const id = document.getElementById('athlete-id').value;
+                const password = document.getElementById('athlete-password').value;
+
+                if (id.trim() === '') {
+                    alert('Please enter your Athlete Name.');
+                    return;
+                }
+                if (password.trim() === '') {
+                    alert('Please enter your password.');
+                    return;
+                }
+
+               
+                window.location.href = 'athelete.html';
+            });
+
+            // Generate Association ID
+            document.getElementById('generate-association-id').addEventListener('click', function () {
+                const generatedId = 'ASSOC_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                document.getElementById('association-id-display').innerText = 'Generated ID: ' + generatedId;
+                document.getElementById('association-id-edit').value = generatedId;
+            });
+
+            // Generate Athlete ID
+            document.getElementById('generate-athlete-id').addEventListener('click', function () {
+                const generatedId = 'ATHLETE_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                document.getElementById('athlete-id-display').innerText = 'Generated ID: ' + generatedId;
+                document.getElementById('athlete-id-edit').value = generatedId;
+            });
+        });
+    </script>
+</body>
+</html>
