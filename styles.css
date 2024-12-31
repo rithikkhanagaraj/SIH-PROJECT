@@ -1,0 +1,78 @@
+/* General body and container styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('bgf.jpg') no-repeat fixed;
+    overflow: hidden; /* Prevent scrolling */
+    height: 100vh; /* 100% of the viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Wrapper to hold the grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three columns */
+    grid-gap: 0px; /* No space between columns */
+    width: 90vw; /* Occupy 90% of the viewport width */
+    height: 100vh; /* Occupy 100% of the viewport height */
+    justify-items: center;
+    align-items: center;
+}
+
+/* Container styling for images */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* No space between images in the column */
+}
+
+/* Styling for each image container */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio while covering the container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.image-container {
+    width: 100%; /* Increase width to fill the column */
+    height: 320px; /* Increase height of each image container */
+}
+
+/* Middle column container */
+.grid-container > .container:nth-child(2) {
+    align-items: center; /* Center the images in the middle container */
+}
+
+/* Hover effect */
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* Two columns on smaller screens */
+        height: auto; /* Adjust height */
+    }
+    .image-container {
+        width: 100%;
+        height: 250px; /* Adjust height for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* One column on very small screens */
+        height: auto;
+    }
+    .image-container {
+        width: 100%; /* Full width on very small screens */
+        height: auto;
+    }
+}
