@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Association Info</title>
+    <link rel="stylesheet" href="v.css">
+</head>
+<body>
+    <!-- Preloader Animation -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <h1>Loading...</h1>
+        </div>
+    </div>
+
+    <!-- Back Button at the top left -->
+    <button class="back-btn" onclick="goBack()">Back</button>
+
+    <div class="container-wrapper">
+        <!-- Left Container with Two Images and Register Buttons -->
+        <div class="left-container">
+            <img src="kabaddi.jpeg" alt="Image 1" class="left-image" id="image1">
+            <input type="file" accept="image/*" id="image1Input" style="display: none;" onchange="changeImage('image1')">
+            <p id="text1">Kabaddi register here..!</p>
+            <button class="edit-btn" onclick="editText('text1')">Edit Text</button>
+            <button class="edit-btn" onclick="document.getElementById('image1Input').click();">Edit Image</button>
+            <button class="register-btn" onclick="openRegisterModal()">Create Form</button>
+
+            <img src="hockey.jpg" alt="Image 2" class="left-image" id="image2">
+            <input type="file" accept="image/*" id="image2Input" style="display: none;" onchange="changeImage('image2')">
+            <p id="text2">Hockey register here..!</p>
+            <button class="edit-btn" onclick="editText('text2')">Edit Text</button>
+            <button class="edit-btn" onclick="document.getElementById('image2Input').click();">Edit Image</button>
+            <button class="register-btn" onclick="openRegisterModal()">Create Form</button>
+        </div>
+
+        <!-- Middle Container with One Image and Description -->
+        <div class="middle-container">
+            <p class="welcome-text"><b>WELCOME TO OUR ASSOCIATION</b></p>
+            <img src="image2.png" alt="Association Image" class="middle-image" id="image3">
+            <input type="file" accept="image/*" id="image3Input" style="display: none;" onchange="changeImage('image3')">
+            <p id="text3">
+                Welcome to our sports association. Youth And Sports promotion Association of Tamil Nadu promotes the fundamental principles of Sports at a national level within the framework of sports. YSPA is committed to the development of athletes and supports the development of sport.
+            </p>
+            <button class="edit-btn" onclick="editText('text3')">Edit Text</button>
+            <button class="edit-btn" onclick="document.getElementById('image3Input').click();">Edit Image</button>
+        </div>
+
+        <!-- Right Container with Two Images and Register Buttons -->
+        <div class="right-container">
+            <img src="football.jpeg" alt="Image 3" class="right-image" id="image4">
+            <input type="file" accept="image/*" id="image4Input" style="display: none;" onchange="changeImage('image4')">
+            <p id="text4">Football register here..!</p>
+            <button class="edit-btn" onclick="editText('text4')">Edit Text</button>
+            <button class="edit-btn" onclick="document.getElementById('image4Input').click();">Edit Image</button>
+            <button class="register-btn" onclick="openRegisterModal()">Create Form</button>
+
+            <img src="cricket.jpg" alt="Image 4" class="right-image" id="image5">
+            <input type="file" accept="image/*" id="image5Input" style="display: none;" onchange="changeImage('image5')">
+            <p id="text5">Cricket register here..!</p>
+            <button class="edit-btn" onclick="editText('text5')">Edit Text</button>
+            <button class="edit-btn" onclick="document.getElementById('image5Input').click();">Edit Image</button>
+            <button class="register-btn" onclick="openRegisterModal()">Create Form</button>
+        </div>
+    </div>
+
+    <!-- Modal for Register Form -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRegisterModal()">&times;</span>
+            <h2 class="modal-title">Sport Event Registration</h2>
+            
+            <div class="modal-container">
+                <div class="modal-left">
+                    <form id="registerForm">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+    
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+    
+                        <label for="contact">Contact Number:</label>
+                        <input type="tel" id="contact" name="contact" required>
+    
+                        <label for="team">Team Members:</label>
+                        <textarea id="team" name="team" placeholder="Enter team member names"></textarea>
+
+                        <button type="submit" class="submit-btn">Register</button>
+                    </form>
+                </div>
+
+                <div class="modal-right">
+                    <button type="button" class="generate-btn" onclick="generateId()">Generate ID</button>
+    
+                    <label for="generatedId">Generated ID:</label>
+                    <input type="text" id="generatedId" name="generatedId" readonly>
+    
+                    <label for="generatedPassword">Generated Password:</label>
+                    <input type="text" id="generatedPassword" name="generatedPassword" readonly>
+    
+                    <p><b>Event Details:</b></p>
+                    <ul>
+                        <li>Event Date: 15th September</li>
+                        <li>Location: Kongu Engineering College, Perundurai, Erode</li>
+                        <li>Teams must have a Team Captain or Vice Captain.</li>
+                    </ul>
+
+                    <div class="right-popup-message">
+                        <p>Note: All teams must register with their team members.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="v.js"></script>
+
+</body>
+</html>
