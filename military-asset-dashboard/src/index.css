@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-military text-gray-900 bg-gray-50;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-soft border border-gray-100;
+  }
+  
+  .btn-primary {
+    @apply bg-military-600 hover:bg-military-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-md border border-gray-300 transition-colors duration-200;
+  }
+  
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .status-available {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .status-repair {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-expended {
+    @apply bg-red-100 text-red-800;
+  }
+}
